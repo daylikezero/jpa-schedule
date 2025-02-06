@@ -21,7 +21,7 @@ public class Reply extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
-    
+
     public Reply() {
     }
 
