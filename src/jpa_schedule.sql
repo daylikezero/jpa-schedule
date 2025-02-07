@@ -9,7 +9,7 @@ GRANT ALL PRIVILEGES ON `jpa_schedule`.* TO `sa`@`localhost`;
 GRANT ALL PRIVILEGES ON `jpa_schedule`.* TO `sa`@`%`;
 
 -- 테이블 생성 (유저)
-CREATE TABLE user
+CREATE TABLE member
 (
     id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '유저 식별자',
     username VARCHAR(100) NOT NULL COMMENT '이름',
@@ -30,5 +30,5 @@ CREATE TABLE schedule
     created_at TIMESTAMP NOT NULL COMMENT '등록일',
     updated_at TIMESTAMP NOT NULL COMMENT '수정일',
     deleted_at TIMESTAMP COMMENT '삭제일',
-    FOREIGN KEY (member_id) REFERENCES user(id)
+    FOREIGN KEY (member_id) REFERENCES member(id)
 );

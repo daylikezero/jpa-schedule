@@ -2,10 +2,15 @@ package com.example.jpaschedule.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Getter
 @Entity
 @Table(name = "member")
+@SQLDelete(sql = "UPDATE member SET deleted_at = now() WHERE id = ?")
+@Where(clause = "deleted_at IS NULL")
 public class Member extends BaseEntity {
 
     @Id
@@ -18,6 +23,7 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
+    @Setter
     private String email;
 
     public Member() {
@@ -30,4 +36,7 @@ public class Member extends BaseEntity {
         this.email = email;
     }
 
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 }
