@@ -26,9 +26,9 @@
       <td align="center">Lv0<br>Lv1</td>
       <td align="center">Lv1<br>Lv2</td>
       <td align="center">Lv3<br>Lv4</td>
-      <td align="center">Lv4<br>Lv5</td>
       <td align="center">Lv5<br>Lv6</td>
       <td align="center">Lv7<br>Lv8</td>
+      <td align="center">통합테스트<br>최종검토</td>
     </tr>
   </tbody>
 </table>
@@ -36,13 +36,58 @@
 
 ## 📋 [API 명세서]()
 
-  ![스크린샷 2025-02-06 오후 3 36 05](https://github.com/user-attachments/assets/45ee6f3f-385d-4c9c-9cf5-ed67060ed56d)<br>
-  ![스크린샷 2025-02-06 오후 3 36 21](https://github.com/user-attachments/assets/d4d1cd68-dd59-45c3-9f20-ad2c60ed4c5e)<br>
-  ![스크린샷 2025-02-06 오후 3 36 34](https://github.com/user-attachments/assets/77914cde-b20b-438f-b533-93d9af36304c)<br>
-  ![스크린샷 2025-02-06 오후 3 36 48](https://github.com/user-attachments/assets/e7e30d29-9874-4317-b665-24d928b11ad5)<br>
+### 1️⃣ 일정 관리 Develop API - 일정
+<div style="overflow-x: auto;">
+  
+| 기능 | Method | URI | Request | Response | Status |
+| --- | --- | --- | --- | --- | --- |
+| 일정 작성 | POST | /api/v1/schedules | {<br>"memberId"*: number,<br>"title"*: string,<br>“contents”*: string<br>} | {<br>“id”: number,<br>"username": string,<br>"title": string,<br>“contents”: string <br>} | 200, 400, 404 |
+| 일정 목록 조회 | GET | /api/v1/schedules | {<br>"memberId": number,<br>“updatedAt": string<br>} | [<br>{<br>"id": number,<br>“username”: string,<br>“title”: string,<br>“contents”: string <br>},<br>// … <br>] | 200, 400|
+| 일정 단건 조회 | GET | /api/v1/schedules/{{id}} |  | {<br>“id”: number,<br>"username": string,<br>"title": string,<br>“contents”: string<br>} | 200, 404 |
+| 일정 수정 | PATCH | /api/v1/schedules/{{id}} |  | {<br>“id”: number,<br>"username": string,<br>"title": string,<br>“contents”: string<br>} | 200, 400, 404 |
+| 일정 삭제 | POST | /api/v1/schedules/{{id}} |  |  | 200, 404 |
+| 일정 페이지 조회 | GET | /api/v1/schedules?pageNo={{pageNo}}&pageSize={{Size}} |  | {<br>“content”:[<br>{<br>"id": number,<br>“username”: string,<br>“title”: string,<br>“contents”: string<br>},{<br>// …<br>},<br>// … <br>],<br>“pageable”: { <br>“sort”: {<br> // … <br>}, <br>“pageSize”: number,<br>“pageNumber”: number,<br> // … <br>},<br>“totalPages”: number,<br> // … <br>} | 200 |
+
+</div>
+
+### 2️⃣ 일정 관리 Develop API - 유저
+<div style="overflow-x: auto;">
+  
+| 기능 | Method | URI | Request | Response | Status |
+| --- | --- | --- | --- | --- | --- |
+| 유저 생성 | POST | /api/v1/user | {<br>"username"*: string,<br>“password”*: string,<br>"email": string<br>} | {<br>"id": number,<br>"username": string,<br>"email": string<br>} | 200, 400 |
+| 유저 목록 조회 | GET | /api/v1/user |  | [<br>{<br>"id": int,<br>"username": string,<br>"email": string<br>},<br> //... <br>] | 200, 400 |
+| 유저 아이디 조회 | GET | /api/v1/user/{{id}} |  | {<br>"id": int,<br>"username": string,<br>"email": string<br>} | 200, 404 |
+| 유저 수정 | PATCH | /api/v1/user/{{id}} | {<br>“password”*: string,<br>"username": string,<br>"email": string<br>} | {<br>"id": int,<br>"username": string,<br>"email": string<br>} | 200, 400, 404 |
+| 유저 삭제 | POST | /api/v1/user/{{id}} | {<br>“password”*: string<br>} |  | 200, 404 |
+
+</div>
+
+### 3️⃣ 일정 관리 Develop API - 인증
+<div style="overflow-x: auto;">
+  
+| 기능 | Method | URI | Request | Response | Status |
+| --- | --- | --- | --- | --- | --- |
+| 로그인 | POST | /api/v1/login | {<br>"username"*: string,<br>“password”*: string<br>} |  | 200, 401 |
+| 로그아웃 | POST | /api/v1/logout |  |  | 200 |
+
+</div>
+
+### 4️⃣ 일정 관리 Develop API - 댓글
+<div style="overflow-x: auto;">
+  
+| 기능 | Method | URI | Request | Response | Status |
+| --- | --- | --- | --- | --- | --- |
+| 댓글 작성 | POST | /api/v1/schedules/{{id}}/replies | {<br>“reply”*: string<br>} | {<br> "id": number,<br> “scheduleId”: number,<br> "username": string,<br> “reply”: string <br>} | 200, 401 |
+| 댓글 조회 | GET | /api/v1/schedules/{{id}}/replies |  | [<br> {<br> "id": number,<br> “scheduleId”: number,<br> "username": string,<br> “reply”: string <br>},<br> // … <br>] | 200 |
+| 댓글 수정 | PATCH | /api/v1/schedules/{{id}}/replies/{{id}} | {<br> “reply”*: string <br>} | {<br> "id": number,<br> “scheduleId”: number,<br> "username": string,<br> “reply”: string <br>} | 200, 400, 404 |
+| 댓글 삭제 | POST | /api/v1/schedules/{{id}}/replies/{{id}} |  |  | 200, 404 |
+
+</div>
 
 ## [✔️ ERD](https://www.erdcloud.com/d/n8EPHTscd3WmKrffD)
-![스크린샷 2025-02-06 오후 3 17 09](https://github.com/user-attachments/assets/da495df5-df83-403d-a605-3889299ad18e)
+![410322592-da495df5-df83-403d-a605-3889299ad18e](https://github.com/user-attachments/assets/612338be-37fb-45a4-b457-290566c0baf4)
+
 
 
 
