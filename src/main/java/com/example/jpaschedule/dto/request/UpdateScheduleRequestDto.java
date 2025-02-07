@@ -3,7 +3,7 @@ package com.example.jpaschedule.dto.request;
 import lombok.Getter;
 
 @Getter
-public class CreateScheduleRequestDto {
+public class UpdateScheduleRequestDto {
 
     private final Long memberId;
 
@@ -11,7 +11,7 @@ public class CreateScheduleRequestDto {
 
     private final String contents;
 
-    public CreateScheduleRequestDto(Long memberId, String title, String contents) {
+    public UpdateScheduleRequestDto(Long memberId, String title, String contents) {
         this.memberId = memberId;
         this.title = title;
         this.contents = contents;
