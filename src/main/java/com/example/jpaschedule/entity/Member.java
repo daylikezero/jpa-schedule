@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Entity
 @Table(name = "member")
 @SQLDelete(sql = "UPDATE member SET deleted_at = now() WHERE id = ?")
-@Where(clause = "deleted_at IS NULL")
+@SQLRestriction("deleted_at IS NULL")
 public class Member extends BaseEntity {
 
     @Id
@@ -25,6 +25,10 @@ public class Member extends BaseEntity {
 
     @Setter
     private String email;
+
+//    @BatchSize(size = 100)
+//    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private List<Schedule> scheduleEntity = new ArrayList<>();
 
     public Member() {
 

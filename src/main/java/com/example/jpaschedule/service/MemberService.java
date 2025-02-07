@@ -12,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +24,6 @@ public class MemberService {
         return new MemberResponseDto(savedMember.getId(), savedMember.getUsername(), savedMember.getEmail());
     }
 
-    public MemberResponseDto findById(Long id) {
-        Member findMember = memberRepository.findByIdOrElseThrow(id);
-        return new MemberResponseDto(findMember.getId(), findMember.getUsername(), findMember.getEmail());
-    }
-
     public List<MemberResponseDto> findAll() {
         List<Member> members = memberRepository.findAll();
         List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
@@ -37,6 +31,11 @@ public class MemberService {
             memberResponseDtos.add(new MemberResponseDto(member.getId(), member.getUsername(), member.getEmail()));
         }
         return memberResponseDtos;
+    }
+
+    public MemberResponseDto findById(Long id) {
+        Member findMember = memberRepository.findByIdOrElseThrow(id);
+        return new MemberResponseDto(findMember.getId(), findMember.getUsername(), findMember.getEmail());
     }
 
     @Transactional
