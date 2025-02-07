@@ -18,8 +18,8 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping
-    public ResponseEntity<MemberResponseDto> save(@RequestBody CreateMemberRequestDto dto) {
+    @PostMapping("/signup")
+    public ResponseEntity<MemberResponseDto> signup(@RequestBody CreateMemberRequestDto dto) {
         MemberResponseDto saveResponseDto = memberService.save(dto.getUsername(), dto.getPassword(), dto.getEmail());
         return ResponseEntity.ok(saveResponseDto);
     }

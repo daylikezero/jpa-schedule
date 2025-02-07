@@ -61,4 +61,9 @@ public class MemberService {
         Member member = getMember(id, password);
         memberRepository.delete(member);
     }
+
+    public MemberResponseDto login(String email, String password) {
+        Member member = memberRepository.findByEmailAndPassword(email, password).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+        return new MemberResponseDto(member.getId(), member.getUsername(), member.getEmail());
+    }
 }
