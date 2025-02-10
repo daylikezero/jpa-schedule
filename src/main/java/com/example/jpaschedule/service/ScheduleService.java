@@ -6,6 +6,7 @@ import com.example.jpaschedule.entity.Member;
 import com.example.jpaschedule.entity.Schedule;
 import com.example.jpaschedule.repository.MemberRepository;
 import com.example.jpaschedule.repository.ScheduleRepository;
+import com.example.jpaschedule.util.EmptyTool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -47,8 +48,12 @@ public class ScheduleService {
     @Transactional
     public ScheduleResponseDto update(Long id, UpdateScheduleRequestDto dto) {
         Schedule schedule = getSchedule(id, dto.getMemberId());
-        schedule.setTitle(dto.getTitle());
-        schedule.setContents(dto.getContents());
+        if (EmptyTool.notEmpty(dto.getTitle())) {
+            schedule.updateTitle(dto.getTitle());
+        }
+        if (EmptyTool.notEmpty(dto.getContents())) {
+            schedule.updateContents(dto.getContents());
+        }
         return new ScheduleResponseDto(schedule.getId(), schedule.getMember().getUsername(), schedule.getTitle(), schedule.getContents());
     }
 

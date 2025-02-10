@@ -23,12 +23,7 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    @Setter
     private String email;
-
-//    @BatchSize(size = 100)
-//    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<Schedule> scheduleEntity = new ArrayList<>();
 
     public Member() {
 
@@ -42,5 +37,9 @@ public class Member extends BaseEntity {
 
     public void updatePassword(String password) {
         this.password = password;
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
     }
 }

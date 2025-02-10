@@ -4,6 +4,7 @@ import com.example.jpaschedule.dto.request.CreateMemberRequestDto;
 import com.example.jpaschedule.dto.request.UpdateMemberRequestDto;
 import com.example.jpaschedule.dto.response.MemberResponseDto;
 import com.example.jpaschedule.service.MemberService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public ResponseEntity<MemberResponseDto> signup(@RequestBody CreateMemberRequestDto dto) {
+    public ResponseEntity<MemberResponseDto> signup(@Valid @RequestBody CreateMemberRequestDto dto) {
         MemberResponseDto saveResponseDto = memberService.save(dto.getUsername(), dto.getPassword(), dto.getEmail());
         return ResponseEntity.ok(saveResponseDto);
     }

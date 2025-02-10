@@ -3,6 +3,7 @@ package com.example.jpaschedule.controller;
 import com.example.jpaschedule.common.Const;
 import com.example.jpaschedule.dto.request.LoginRequestDto;
 import com.example.jpaschedule.dto.response.MemberResponseDto;
+import com.example.jpaschedule.service.LoginService;
 import com.example.jpaschedule.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -18,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final MemberService memberService;
+    private final LoginService loginService;
 
     // 2. 세션(Session)
     // 2-1. 세션 로그인
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody LoginRequestDto dto, HttpServletRequest request) {
-        MemberResponseDto responseDto = memberService.login(dto.getEmail(), dto.getPassword());
+        MemberResponseDto responseDto = loginService.login(dto.getEmail(), dto.getPassword());
 
         HttpSession session =  request.getSession();
 

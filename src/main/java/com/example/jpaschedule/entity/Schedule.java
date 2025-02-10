@@ -17,11 +17,9 @@ public class Schedule extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
     @Column(nullable = false)
     private String title;
 
-    @Setter
     @Column(columnDefinition = "longtext")
     private String contents;
 
@@ -35,6 +33,14 @@ public class Schedule extends BaseEntity {
 
     public Schedule(String title, String contents) {
         this.title = title;
+        this.contents = contents;
+    }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContents(String contents) {
         this.contents = contents;
     }
 }
