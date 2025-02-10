@@ -45,6 +45,6 @@ public class MemberController {
     @PostMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id, @RequestBody UpdateMemberRequestDto dto) {
         memberService.delete(id, dto.getPassword());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 }

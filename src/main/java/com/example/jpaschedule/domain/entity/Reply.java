@@ -7,6 +7,7 @@ import lombok.Getter;
 @Entity
 @Table(name = "reply")
 public class Reply extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

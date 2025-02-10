@@ -26,7 +26,6 @@ public class MemberService {
         return new MemberResponseDto(savedMember.getId(), savedMember.getUsername(), savedMember.getEmail());
     }
 
-    // TODO 유저 전체 조회 권한 필요 (관리자)
     public List<MemberResponseDto> findAll() {
         List<Member> members = memberRepository.findAll();
         List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
@@ -37,10 +36,7 @@ public class MemberService {
     }
 
     public MemberResponseDto findById(Long id) {
-        if (!id.equals(MemberContext.getMemberId())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "조회 권한이 없습니다.");
-        }
-        Member findMember = memberRepository.findByIdOrElseThrow(id);
+        Member findMember = getMember(id);
         return new MemberResponseDto(findMember.getId(), findMember.getUsername(), findMember.getEmail());
     }
 
@@ -65,11 +61,15 @@ public class MemberService {
         memberRepository.delete(member);
     }
 
-    private Member getMember(Long id, String password) {
+    public Member getMember(Long id) {
         if (!id.equals(MemberContext.getMemberId())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "조회 권한이 없습니다.");
         }
-        Member member = memberRepository.findByIdOrElseThrow(id);
+        return memberRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id));
+    }
+
+    private Member getMember(Long id, String password) {
+        Member member = getMember(id);
         if (!member.getPassword().equals(password)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
         }
