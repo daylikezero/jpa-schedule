@@ -1,9 +1,9 @@
-package com.example.jpaschedule.controller;
+package com.example.jpaschedule.domain.controller;
 
-import com.example.jpaschedule.dto.request.CreateScheduleRequestDto;
-import com.example.jpaschedule.dto.request.UpdateScheduleRequestDto;
-import com.example.jpaschedule.dto.response.ScheduleResponseDto;
-import com.example.jpaschedule.service.ScheduleService;
+import com.example.jpaschedule.domain.dto.request.CreateScheduleRequestDto;
+import com.example.jpaschedule.domain.dto.request.UpdateScheduleRequestDto;
+import com.example.jpaschedule.domain.dto.response.ScheduleResponseDto;
+import com.example.jpaschedule.domain.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

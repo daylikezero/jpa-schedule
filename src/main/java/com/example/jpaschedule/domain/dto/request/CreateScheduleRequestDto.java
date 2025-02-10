@@ -1,4 +1,4 @@
-package com.example.jpaschedule.dto.request;
+package com.example.jpaschedule.domain.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

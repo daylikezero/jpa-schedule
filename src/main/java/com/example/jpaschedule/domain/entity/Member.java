@@ -1,4 +1,4 @@
-package com.example.jpaschedule.entity;
+package com.example.jpaschedule.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

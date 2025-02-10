@@ -1,9 +1,9 @@
-package com.example.jpaschedule.service;
+package com.example.jpaschedule.domain.service;
 
-import com.example.jpaschedule.dto.request.UpdateMemberRequestDto;
-import com.example.jpaschedule.dto.response.MemberResponseDto;
-import com.example.jpaschedule.entity.Member;
-import com.example.jpaschedule.repository.MemberRepository;
+import com.example.jpaschedule.domain.dto.request.UpdateMemberRequestDto;
+import com.example.jpaschedule.domain.dto.response.MemberResponseDto;
+import com.example.jpaschedule.domain.entity.Member;
+import com.example.jpaschedule.domain.repository.MemberRepository;
 import com.example.jpaschedule.filter.context.MemberContext;
 import com.example.jpaschedule.util.EmptyTool;
 import lombok.RequiredArgsConstructor;

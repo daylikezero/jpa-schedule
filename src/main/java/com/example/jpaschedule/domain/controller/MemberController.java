@@ -1,9 +1,9 @@
-package com.example.jpaschedule.controller;
+package com.example.jpaschedule.domain.controller;
 
-import com.example.jpaschedule.dto.request.CreateMemberRequestDto;
-import com.example.jpaschedule.dto.request.UpdateMemberRequestDto;
-import com.example.jpaschedule.dto.response.MemberResponseDto;
-import com.example.jpaschedule.service.MemberService;
+import com.example.jpaschedule.domain.dto.request.CreateMemberRequestDto;
+import com.example.jpaschedule.domain.dto.request.UpdateMemberRequestDto;
+import com.example.jpaschedule.domain.dto.response.MemberResponseDto;
+import com.example.jpaschedule.domain.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
