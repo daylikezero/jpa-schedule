@@ -1,9 +1,9 @@
-package com.example.jpaschedule.controller;
+package com.example.jpaschedule.domain.controller;
 
 import com.example.jpaschedule.common.Const;
-import com.example.jpaschedule.dto.request.LoginRequestDto;
-import com.example.jpaschedule.dto.response.MemberResponseDto;
-import com.example.jpaschedule.service.LoginService;
+import com.example.jpaschedule.domain.dto.request.LoginRequestDto;
+import com.example.jpaschedule.domain.dto.response.MemberResponseDto;
+import com.example.jpaschedule.domain.service.LoginService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;

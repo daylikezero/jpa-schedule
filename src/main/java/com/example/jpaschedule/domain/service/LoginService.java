@@ -1,8 +1,8 @@
-package com.example.jpaschedule.service;
+package com.example.jpaschedule.domain.service;
 
-import com.example.jpaschedule.dto.response.MemberResponseDto;
-import com.example.jpaschedule.entity.Member;
-import com.example.jpaschedule.repository.MemberRepository;
+import com.example.jpaschedule.domain.dto.response.MemberResponseDto;
+import com.example.jpaschedule.domain.entity.Member;
+import com.example.jpaschedule.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.example.jpaschedule.dto.request;
+package com.example.jpaschedule.domain.dto.request;
 
 import lombok.Getter;
 
