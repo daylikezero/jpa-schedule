@@ -47,9 +47,14 @@ public class MemberService {
     @Transactional
     public MemberResponseDto update(Long id, UpdateMemberRequestDto dto) {
         Member member = getMember(id, dto.getPassword());
-        member.updateEmail(dto.getEmail());
+        if (EmptyTool.notEmpty(dto.getUsername())) {
+            member.updateUsername(dto.getUsername());
+        }
         if (EmptyTool.notEmpty(dto.getNewPassword())) {
             member.updatePassword(dto.getNewPassword());
+        }
+        if (EmptyTool.notEmpty(dto.getEmail())) {
+            member.updateEmail(dto.getEmail());
         }
         return new MemberResponseDto(member.getId(), member.getUsername(), member.getEmail());
     }

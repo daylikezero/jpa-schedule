@@ -20,7 +20,7 @@ public class ScheduleController {
 
     @PostMapping
     public ResponseEntity<ScheduleResponseDto> save(@RequestBody CreateScheduleRequestDto dto) {
-        ScheduleResponseDto saveSchedule = scheduleService.save(dto.getMemberId(), dto.getTitle(), dto.getContents());
+        ScheduleResponseDto saveSchedule = scheduleService.save(dto.getTitle(), dto.getContents());
         return ResponseEntity.ok(saveSchedule);
     }
 
@@ -42,8 +42,8 @@ public class ScheduleController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id, @RequestBody UpdateScheduleRequestDto dto) {
-        scheduleService.delete(id, dto.getMemberId());
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        scheduleService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

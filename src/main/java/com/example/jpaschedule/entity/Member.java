@@ -2,7 +2,6 @@ package com.example.jpaschedule.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -29,10 +28,18 @@ public class Member extends BaseEntity {
 
     }
 
+    public Member(Long id) {
+        this.id = id;
+    }
+
     public Member(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
+    }
+
+    public void updateUsername(String username) {
+        this.username = username;
     }
 
     public void updatePassword(String password) {
