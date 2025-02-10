@@ -41,8 +41,8 @@
   
 | 기능 | Method | URI | Request | Response | Status |
 | --- | --- | --- | --- | --- | --- |
-| 일정 작성 | POST | /api/v1/schedules | {<br>"memberId": number,<br>"title": string,<br>"contents": string<br>} | {<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string <br>} | 200, 400, 404 |
-| 일정 목록 조회 | GET | /api/v1/schedules | {<br>"memberId": number,<br>"updatedAt": string<br>} | [<br>{<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string <br>},<br>// … <br>] | 200, 400|
+| 일정 작성 | POST | /api/v1/schedules | {<br>"title": string,<br>"contents": string<br>} | {<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string <br>} | 200, 400, 404 |
+| 일정 목록 조회 | GET | /api/v1/schedules | {<br>"updatedAt": string<br>} | [<br>{<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string <br>},<br>// … <br>] | 200, 400|
 | 일정 단건 조회 | GET | /api/v1/schedules/{{id}} |  | {<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string<br>} | 200, 404 |
 | 일정 수정 | PATCH | /api/v1/schedules/{{id}} |  | {<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string<br>} | 200, 400, 404 |
 | 일정 삭제 | POST | /api/v1/schedules/{{id}} |  |  | 200, 404 |
@@ -58,7 +58,7 @@
 | 유저 생성 | POST | /api/v1/members | {<br>"username": string,<br>"password": string,<br>"email": string<br>} | {<br>"id": number,<br>"username": string,<br>"email": string<br>} | 200, 400 |
 | 유저 목록 조회 | GET | /api/v1/members |  | [<br>{<br>"id": int,<br>"username": string,<br>"email": string<br>},<br> //... <br>] | 200, 400 |
 | 유저 아이디 조회 | GET | /api/v1/members/{{id}} |  | {<br>"id": int,<br>"username": string,<br>"email": string<br>} | 200, 404 |
-| 유저 수정 | PATCH | /api/v1/members/{{id}} | {<br>"password": string,<br>"newPassword": string,<br>"email": string<br>} | {<br>"id": int,<br>"username": string,<br>"email": string<br>} | 200, 400, 404 |
+| 유저 수정 | PATCH | /api/v1/members/{{id}} | {<br>"password": string,<br>"newPassword": string,<br>"username": string<br>"email": string<br>} | {<br>"id": int,<br>"username": string,<br>"email": string<br>} | 200, 400, 404 |
 | 유저 삭제 | POST | /api/v1/members/{{id}} | {<br>"password": string<br>} |  | 200, 404 |
 
 </div>
@@ -68,7 +68,7 @@
   
 | 기능 | Method | URI | Request | Response | Status |
 | --- | --- | --- | --- | --- | --- |
-| 로그인 | POST | /api/v1/login | {<br>"username": string,<br>"password": string<br>} |  | 200, 401 |
+| 로그인 | POST | /api/v1/login | {<br>"email": string,<br>"password": string<br>} |  | 200, 401 |
 | 로그아웃 | POST | /api/v1/logout |  |  | 200 |
 
 </div>
@@ -98,3 +98,6 @@
 <!-- <img src="https://img.shields.io/badge/swagger-%2385EA2D.svg?&style=for-the-badge&logo=swagger&logoColor=black" /> -->
 
 ## 🔫 트러블 슈팅
+[[Spring]_JPA_Entity](https://velog.io/@daylikezero/Spring-JPA-Entity)<br>
+[[Spring]_JPA_Soft_Delete](https://velog.io/@daylikezero/Spring-JPA-Soft-Delete)<br>
+[[Spring]_일정관리_앱_Develop_트러블슈팅](https://velog.io/@daylikezero/Spring-%EC%9D%BC%EC%A0%95%EA%B4%80%EB%A6%AC-%EC%95%B1-Develop-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85)<br>
