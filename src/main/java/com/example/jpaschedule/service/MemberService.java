@@ -26,7 +26,6 @@ public class MemberService {
         return new MemberResponseDto(savedMember.getId(), savedMember.getUsername(), savedMember.getEmail());
     }
 
-    // TODO 유저 전체 조회 권한 필요 (관리자)
     public List<MemberResponseDto> findAll() {
         List<Member> members = memberRepository.findAll();
         List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
@@ -47,9 +46,14 @@ public class MemberService {
     @Transactional
     public MemberResponseDto update(Long id, UpdateMemberRequestDto dto) {
         Member member = getMember(id, dto.getPassword());
-        member.updateEmail(dto.getEmail());
+        if (EmptyTool.notEmpty(dto.getUsername())) {
+            member.updateUsername(dto.getUsername());
+        }
         if (EmptyTool.notEmpty(dto.getNewPassword())) {
             member.updatePassword(dto.getNewPassword());
+        }
+        if (EmptyTool.notEmpty(dto.getEmail())) {
+            member.updateEmail(dto.getEmail());
         }
         return new MemberResponseDto(member.getId(), member.getUsername(), member.getEmail());
     }

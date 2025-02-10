@@ -4,9 +4,9 @@ import com.example.jpaschedule.dto.request.UpdateScheduleRequestDto;
 import com.example.jpaschedule.dto.response.ScheduleResponseDto;
 import com.example.jpaschedule.entity.Member;
 import com.example.jpaschedule.entity.Schedule;
+import com.example.jpaschedule.filter.context.MemberContext;
 import com.example.jpaschedule.repository.MemberRepository;
 import com.example.jpaschedule.repository.ScheduleRepository;
-import com.example.jpaschedule.filter.context.MemberContext;
 import com.example.jpaschedule.util.EmptyTool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,10 +24,9 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final MemberRepository memberRepository;
 
-    public ScheduleResponseDto save(Long memberId, String title, String contents) {
-        Member findMember = memberRepository.findByIdOrElseThrow(memberId);
-        Schedule schedule = new Schedule(title, contents);
-        schedule.setMember(findMember);
+    public ScheduleResponseDto save(String title, String contents) {
+        Member findMember = memberRepository.findByIdOrElseThrow(MemberContext.getMemberId());
+        Schedule schedule = new Schedule(title, contents, findMember);
         scheduleRepository.save(schedule);
         return new ScheduleResponseDto(schedule.getId(), schedule.getMember().getUsername(), schedule.getTitle(), schedule.getContents());
     }
@@ -42,13 +41,13 @@ public class ScheduleService {
     }
 
     public ScheduleResponseDto findById(Long id) {
-        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
+        Schedule findSchedule = getSchedule(id);
         return new ScheduleResponseDto(findSchedule.getId(), findSchedule.getMember().getUsername(), findSchedule.getTitle(), findSchedule.getContents());
     }
 
     @Transactional
     public ScheduleResponseDto update(Long id, UpdateScheduleRequestDto dto) {
-        Schedule schedule = getSchedule(id, dto.getMemberId());
+        Schedule schedule = getSchedule(id);
         if (EmptyTool.notEmpty(dto.getTitle())) {
             schedule.updateTitle(dto.getTitle());
         }
@@ -58,16 +57,16 @@ public class ScheduleService {
         return new ScheduleResponseDto(schedule.getId(), schedule.getMember().getUsername(), schedule.getTitle(), schedule.getContents());
     }
 
-    private Schedule getSchedule(Long id, Long memberId) {
-        Schedule schedule = scheduleRepository.findByIdOrElseThrow(id);
-        if (!schedule.getMember().getId().equals(memberId)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "memberId is not match");
-        }
-        return schedule;
+    public void delete(Long id) {
+        Schedule schedule = getSchedule(id);
+        scheduleRepository.delete(schedule);
     }
 
-    public void delete(Long id, Long memberId) {
-        Schedule schedule = getSchedule(id, memberId);
-        scheduleRepository.delete(schedule);
+    private Schedule getSchedule(Long id) {
+        Schedule schedule = scheduleRepository.findByIdOrElseThrow(id);
+        if (!schedule.getMember().getId().equals(MemberContext.getMemberId())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인 ID와 작성자 ID가 일치하지 않습니다.");
+        }
+        return schedule;
     }
 }

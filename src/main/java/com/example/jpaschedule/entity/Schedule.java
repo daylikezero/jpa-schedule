@@ -2,7 +2,6 @@ package com.example.jpaschedule.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -23,7 +22,6 @@ public class Schedule extends BaseEntity {
     @Column(columnDefinition = "longtext")
     private String contents;
 
-    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -31,9 +29,10 @@ public class Schedule extends BaseEntity {
     public Schedule() {
     }
 
-    public Schedule(String title, String contents) {
+    public Schedule(String title, String contents, Member member) {
         this.title = title;
         this.contents = contents;
+        this.member = member;
     }
 
     public void updateTitle(String title) {

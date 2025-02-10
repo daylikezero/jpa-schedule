@@ -12,12 +12,15 @@ public class UpdateMemberRequestDto {
 
     private final String newPassword;
 
+    private final String username;
+
     @Email(message = "이메일 형식으로 작성해 주세요.")
     private final String email;
 
-    public UpdateMemberRequestDto(String password, String newPassword, String email) {
+    public UpdateMemberRequestDto(String password, String newPassword, String username, String email) {
         this.password = password;
         this.newPassword = newPassword;
+        this.username = username;
         this.email = email;
     }
 }
