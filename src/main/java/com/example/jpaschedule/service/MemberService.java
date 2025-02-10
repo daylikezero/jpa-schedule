@@ -4,7 +4,7 @@ import com.example.jpaschedule.dto.request.UpdateMemberRequestDto;
 import com.example.jpaschedule.dto.response.MemberResponseDto;
 import com.example.jpaschedule.entity.Member;
 import com.example.jpaschedule.repository.MemberRepository;
-import com.example.jpaschedule.service.context.MemberContext;
+import com.example.jpaschedule.filter.context.MemberContext;
 import com.example.jpaschedule.util.EmptyTool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
