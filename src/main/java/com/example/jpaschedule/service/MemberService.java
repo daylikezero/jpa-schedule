@@ -4,6 +4,7 @@ import com.example.jpaschedule.dto.request.UpdateMemberRequestDto;
 import com.example.jpaschedule.dto.response.MemberResponseDto;
 import com.example.jpaschedule.entity.Member;
 import com.example.jpaschedule.repository.MemberRepository;
+import com.example.jpaschedule.util.EmptyTool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class MemberService {
         return new MemberResponseDto(savedMember.getId(), savedMember.getUsername(), savedMember.getEmail());
     }
 
+    // TODO 유저의 조회, 수정, 삭제는 권한 필요 (유저 본인 또는 관리자)
     public List<MemberResponseDto> findAll() {
         List<Member> members = memberRepository.findAll();
         List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
@@ -41,19 +43,11 @@ public class MemberService {
     @Transactional
     public MemberResponseDto update(Long id, UpdateMemberRequestDto dto) {
         Member member = getMember(id, dto.getPassword());
-        member.setEmail(dto.getEmail());
-        if (dto.getNewPassword() != null) {
+        member.updateEmail(dto.getEmail());
+        if (EmptyTool.notEmpty(dto.getNewPassword())) {
             member.updatePassword(dto.getNewPassword());
         }
         return new MemberResponseDto(member.getId(), member.getUsername(), member.getEmail());
-    }
-
-    private Member getMember(Long id, String password) {
-        Member member = memberRepository.findByIdOrElseThrow(id);
-        if (!member.getPassword().equals(password)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
-        }
-        return member;
     }
 
     @Transactional
@@ -62,8 +56,11 @@ public class MemberService {
         memberRepository.delete(member);
     }
 
-    public MemberResponseDto login(String email, String password) {
-        Member member = memberRepository.findByEmailAndPassword(email, password).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
-        return new MemberResponseDto(member.getId(), member.getUsername(), member.getEmail());
+    private Member getMember(Long id, String password) {
+        Member member = memberRepository.findByIdOrElseThrow(id);
+        if (!member.getPassword().equals(password)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
+        }
+        return member;
     }
 }
