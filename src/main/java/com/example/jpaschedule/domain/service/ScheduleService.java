@@ -21,11 +21,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleService {
 
+    private final MemberService memberService;
     private final ScheduleRepository scheduleRepository;
-    private final MemberRepository memberRepository;
 
     public ScheduleResponseDto save(String title, String contents) {
-        Member findMember = memberRepository.findByIdOrElseThrow(MemberContext.getMemberId());
+        Member findMember = memberService.getMember(MemberContext.getMemberId());
         Schedule schedule = new Schedule(title, contents, findMember);
         scheduleRepository.save(schedule);
         return new ScheduleResponseDto(schedule.getId(), schedule.getMember().getUsername(), schedule.getTitle(), schedule.getContents());
@@ -63,7 +63,8 @@ public class ScheduleService {
     }
 
     private Schedule getSchedule(Long id) {
-        Schedule schedule = scheduleRepository.findByIdOrElseThrow(id);
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 ID 입니다. id: " + id));;
         if (!schedule.getMember().getId().equals(MemberContext.getMemberId())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인 ID와 작성자 ID가 일치하지 않습니다.");
         }

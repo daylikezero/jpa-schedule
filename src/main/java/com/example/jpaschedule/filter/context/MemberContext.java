@@ -1,7 +1,7 @@
 package com.example.jpaschedule.filter.context;
 
 public class MemberContext {
-    private static ThreadLocal<Long> memberIdThreadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<Long> memberIdThreadLocal = new ThreadLocal<>();
 
     public static void setMemberId(Long memberId) {
         memberIdThreadLocal.set(memberId);
