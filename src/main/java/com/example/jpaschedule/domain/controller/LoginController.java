@@ -20,8 +20,6 @@ public class LoginController {
 
     private final LoginService loginService;
 
-    // 2. 세션(Session)
-    // 2-1. 세션 로그인
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody LoginRequestDto dto, HttpServletRequest request) {
         MemberResponseDto responseDto = loginService.login(dto.getEmail(), dto.getPassword());
@@ -32,7 +30,6 @@ public class LoginController {
         return ResponseEntity.ok().build();
     }
 
-    // 2-2. 세션 로그아웃
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
