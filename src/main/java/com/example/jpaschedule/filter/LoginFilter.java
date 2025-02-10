@@ -1,6 +1,7 @@
 package com.example.jpaschedule.filter;
 
 import com.example.jpaschedule.common.Const;
+import com.example.jpaschedule.service.context.MemberContext;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,6 +33,7 @@ public class LoginFilter implements Filter {
             if(session == null || session.getAttribute(Const.SESSION_KEY) == null) {
                 throw new RuntimeException("로그인이 필요한 요청입니다.");
             }
+            MemberContext.setMemberId((Long) session.getAttribute(Const.SESSION_KEY));
             log.info("Login successful");
         }
         chain.doFilter(request, response);

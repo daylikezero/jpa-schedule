@@ -6,6 +6,7 @@ import com.example.jpaschedule.entity.Member;
 import com.example.jpaschedule.entity.Schedule;
 import com.example.jpaschedule.repository.MemberRepository;
 import com.example.jpaschedule.repository.ScheduleRepository;
+import com.example.jpaschedule.service.context.MemberContext;
 import com.example.jpaschedule.util.EmptyTool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,8 @@ public class ScheduleService {
     }
 
     public List<ScheduleResponseDto> findAll() {
-        List<Schedule> schedules = scheduleRepository.findAll();
+        // 로그인한 유저의 일정 전체 조회
+        List<Schedule> schedules = scheduleRepository.findAllByMember_Id(MemberContext.getMemberId());
         List<ScheduleResponseDto> scheduleResponseDtos = new ArrayList<>();
         for (Schedule schedule : schedules) {
             scheduleResponseDtos.add(new ScheduleResponseDto(schedule.getId(), schedule.getMember().getUsername(), schedule.getTitle(), schedule.getContents()));

@@ -5,6 +5,7 @@ import com.example.jpaschedule.dto.request.LoginRequestDto;
 import com.example.jpaschedule.dto.response.MemberResponseDto;
 import com.example.jpaschedule.service.LoginService;
 import com.example.jpaschedule.service.MemberService;
+import com.example.jpaschedule.service.context.MemberContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,6 @@ public class LoginController {
         HttpSession session =  request.getSession();
 
         session.setAttribute(Const.SESSION_KEY, responseDto.getId());
-
         return ResponseEntity.ok().build();
     }
 
