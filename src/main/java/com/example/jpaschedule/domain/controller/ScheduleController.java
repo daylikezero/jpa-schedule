@@ -1,11 +1,9 @@
 package com.example.jpaschedule.domain.controller;
 
-import com.example.jpaschedule.domain.dto.request.CreateScheduleRequestDto;
-import com.example.jpaschedule.domain.dto.request.UpdateScheduleRequestDto;
+import com.example.jpaschedule.domain.dto.request.ScheduleRequestDto;
 import com.example.jpaschedule.domain.dto.response.ScheduleResponseDto;
 import com.example.jpaschedule.domain.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +17,7 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> save(@RequestBody CreateScheduleRequestDto dto) {
+    public ResponseEntity<ScheduleResponseDto> save(@RequestBody ScheduleRequestDto dto) {
         ScheduleResponseDto saveSchedule = scheduleService.save(dto.getTitle(), dto.getContents());
         return ResponseEntity.ok(saveSchedule);
     }
@@ -36,7 +34,7 @@ public class ScheduleController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> update(@PathVariable Long id, @RequestBody UpdateScheduleRequestDto dto) {
+    public ResponseEntity<ScheduleResponseDto> update(@PathVariable Long id, @RequestBody ScheduleRequestDto dto) {
         ScheduleResponseDto updateResponseDto = scheduleService.update(id, dto);
         return ResponseEntity.ok(updateResponseDto);
     }

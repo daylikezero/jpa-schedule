@@ -1,10 +1,9 @@
 package com.example.jpaschedule.domain.service;
 
-import com.example.jpaschedule.domain.dto.request.UpdateScheduleRequestDto;
+import com.example.jpaschedule.domain.dto.request.ScheduleRequestDto;
 import com.example.jpaschedule.domain.dto.response.ScheduleResponseDto;
 import com.example.jpaschedule.domain.entity.Member;
 import com.example.jpaschedule.domain.entity.Schedule;
-import com.example.jpaschedule.domain.repository.MemberRepository;
 import com.example.jpaschedule.domain.repository.ScheduleRepository;
 import com.example.jpaschedule.filter.context.MemberContext;
 import com.example.jpaschedule.util.EmptyTool;
@@ -46,7 +45,7 @@ public class ScheduleService {
     }
 
     @Transactional
-    public ScheduleResponseDto update(Long id, UpdateScheduleRequestDto dto) {
+    public ScheduleResponseDto update(Long id, ScheduleRequestDto dto) {
         Schedule schedule = getSchedule(id);
         if (EmptyTool.notEmpty(dto.getTitle())) {
             schedule.updateTitle(dto.getTitle());
