@@ -1,4 +1,4 @@
-package com.example.jpaschedule.filter.context;
+package com.example.jpaschedule.config.context;
 
 public class MemberContext {
     private static final ThreadLocal<Long> memberIdThreadLocal = new ThreadLocal<>();

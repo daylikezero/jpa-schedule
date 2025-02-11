@@ -1,7 +1,7 @@
-package com.example.jpaschedule.filter;
+package com.example.jpaschedule.config.filter;
 
 import com.example.jpaschedule.common.Const;
-import com.example.jpaschedule.filter.context.MemberContext;
+import com.example.jpaschedule.config.context.MemberContext;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
