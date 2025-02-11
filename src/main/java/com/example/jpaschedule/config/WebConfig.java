@@ -1,7 +1,7 @@
 package com.example.jpaschedule.config;
 
-import com.example.jpaschedule.filter.LoginFilter;
-import com.example.jpaschedule.filter.interceptor.SessionInterceptor;
+import com.example.jpaschedule.config.filter.LoginFilter;
+import com.example.jpaschedule.config.interceptor.SessionInterceptor;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

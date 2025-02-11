@@ -1,4 +1,4 @@
-package com.example.jpaschedule.util;
+package com.example.jpaschedule.common.util;
 
 import java.lang.reflect.Array;
 import java.util.List;

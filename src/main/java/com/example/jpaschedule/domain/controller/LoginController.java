@@ -24,9 +24,7 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<Void> login(@Valid @RequestBody LoginRequestDto dto, HttpServletRequest request) {
         MemberResponseDto responseDto = loginService.login(dto.getEmail(), dto.getPassword());
-
         HttpSession session = request.getSession();
-
         session.setAttribute(Const.SESSION_KEY, responseDto.getId());
         return ResponseEntity.ok().build();
     }
