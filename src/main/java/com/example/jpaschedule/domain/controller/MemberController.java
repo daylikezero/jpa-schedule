@@ -1,12 +1,11 @@
 package com.example.jpaschedule.domain.controller;
 
-import com.example.jpaschedule.domain.dto.request.CreateMemberRequestDto;
-import com.example.jpaschedule.domain.dto.request.UpdateMemberRequestDto;
+import com.example.jpaschedule.domain.dto.request.SignUpRequestDto;
+import com.example.jpaschedule.domain.dto.request.MemberRequestDto;
 import com.example.jpaschedule.domain.dto.response.MemberResponseDto;
 import com.example.jpaschedule.domain.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public ResponseEntity<MemberResponseDto> signup(@Valid @RequestBody CreateMemberRequestDto dto) {
+    public ResponseEntity<MemberResponseDto> signup(@Valid @RequestBody SignUpRequestDto dto) {
         MemberResponseDto saveResponseDto = memberService.save(dto.getUsername(), dto.getPassword(), dto.getEmail());
         return ResponseEntity.ok(saveResponseDto);
     }
@@ -37,13 +36,13 @@ public class MemberController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<MemberResponseDto> update(@PathVariable Long id, @RequestBody UpdateMemberRequestDto dto) {
+    public ResponseEntity<MemberResponseDto> update(@PathVariable Long id, @RequestBody MemberRequestDto dto) {
         MemberResponseDto updateResponseDto = memberService.update(id, dto);
         return ResponseEntity.ok(updateResponseDto);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id, @RequestBody UpdateMemberRequestDto dto) {
+    public ResponseEntity<Void> delete(@PathVariable Long id, @RequestBody MemberRequestDto dto) {
         memberService.delete(id, dto.getPassword());
         return ResponseEntity.ok().build();
     }

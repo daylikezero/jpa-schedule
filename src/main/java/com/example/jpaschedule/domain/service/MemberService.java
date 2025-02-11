@@ -1,6 +1,6 @@
 package com.example.jpaschedule.domain.service;
 
-import com.example.jpaschedule.domain.dto.request.UpdateMemberRequestDto;
+import com.example.jpaschedule.domain.dto.request.MemberRequestDto;
 import com.example.jpaschedule.domain.dto.response.MemberResponseDto;
 import com.example.jpaschedule.domain.entity.Member;
 import com.example.jpaschedule.domain.repository.MemberRepository;
@@ -41,7 +41,7 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberResponseDto update(Long id, UpdateMemberRequestDto dto) {
+    public MemberResponseDto update(Long id, MemberRequestDto dto) {
         Member member = getMember(id, dto.getPassword());
         if (EmptyTool.notEmpty(dto.getUsername())) {
             member.updateUsername(dto.getUsername());
