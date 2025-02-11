@@ -22,27 +22,27 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public MemberResponseDto save(String username, String password, String email) {
-        Member savedMember = memberRepository.save(new Member(username, password, email));
-        return new MemberResponseDto(savedMember.getId(), savedMember.getUsername(), savedMember.getEmail());
+        Member savedMember = memberRepository.save(Member.of(username, password, email));
+        return MemberResponseDto.fromMember(savedMember);
     }
 
     public List<MemberResponseDto> findAll() {
         List<Member> members = memberRepository.findAll();
         List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
         for (Member member : members) {
-            memberResponseDtos.add(new MemberResponseDto(member.getId(), member.getUsername(), member.getEmail()));
+            memberResponseDtos.add(MemberResponseDto.fromMember(member));
         }
         return memberResponseDtos;
     }
 
     public MemberResponseDto findById(Long id) {
         Member findMember = getMember(id);
-        return new MemberResponseDto(findMember.getId(), findMember.getUsername(), findMember.getEmail());
+        return MemberResponseDto.fromMember(findMember);
     }
 
     @Transactional
     public MemberResponseDto update(Long id, MemberRequestDto dto) {
-        Member member = getMember(id, dto.getPassword());
+        Member member = getMember(id);
         if (EmptyTool.notEmpty(dto.getUsername())) {
             member.updateUsername(dto.getUsername());
         }
@@ -52,12 +52,12 @@ public class MemberService {
         if (EmptyTool.notEmpty(dto.getEmail())) {
             member.updateEmail(dto.getEmail());
         }
-        return new MemberResponseDto(member.getId(), member.getUsername(), member.getEmail());
+        return MemberResponseDto.fromMember(member);
     }
 
     @Transactional
-    public void delete(Long id, String password) {
-        Member member = getMember(id, password);
+    public void delete(Long id) {
+        Member member = getMember(id);
         memberRepository.delete(member);
     }
 
@@ -66,13 +66,5 @@ public class MemberService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "조회 권한이 없습니다.");
         }
         return memberRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id));
-    }
-
-    private Member getMember(Long id, String password) {
-        Member member = getMember(id);
-        if (!member.getPassword().equals(password)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
-        }
-        return member;
     }
 }

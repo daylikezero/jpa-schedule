@@ -36,14 +36,14 @@ public class MemberController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<MemberResponseDto> update(@PathVariable Long id, @RequestBody MemberRequestDto dto) {
+    public ResponseEntity<MemberResponseDto> update(@PathVariable Long id, @Valid @RequestBody MemberRequestDto dto) {
         MemberResponseDto updateResponseDto = memberService.update(id, dto);
         return ResponseEntity.ok(updateResponseDto);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id, @RequestBody MemberRequestDto dto) {
-        memberService.delete(id, dto.getPassword());
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        memberService.delete(id);
         return ResponseEntity.ok().build();
     }
 }
