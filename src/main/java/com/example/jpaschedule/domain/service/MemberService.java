@@ -1,5 +1,7 @@
 package com.example.jpaschedule.domain.service;
 
+import com.example.jpaschedule.config.PasswordEncoder;
+import com.example.jpaschedule.domain.dto.request.DeleteMemberRequestDto;
 import com.example.jpaschedule.domain.dto.request.MemberRequestDto;
 import com.example.jpaschedule.domain.dto.response.MemberResponseDto;
 import com.example.jpaschedule.domain.entity.Member;
@@ -8,6 +10,7 @@ import com.example.jpaschedule.config.context.MemberContext;
 import com.example.jpaschedule.common.util.EmptyTool;
 import com.example.jpaschedule.exception.CustomException;
 import com.example.jpaschedule.exception.ErrorCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +23,12 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public MemberResponseDto save(String username, String password, String email) {
-        Member savedMember = memberRepository.save(Member.of(username, password, email));
+        String encodePassword = passwordEncoder.encode(password);
+        Member savedMember = memberRepository.save(Member.of(username, encodePassword, email));
         return MemberResponseDto.fromMember(savedMember);
     }
 
@@ -46,12 +51,11 @@ public class MemberService {
     @Transactional
     public MemberResponseDto update(Long id, MemberRequestDto dto) {
         Member member = findMember(id);
-        // TODO 기존 비밀번호 검증 로직
+        if (!passwordEncoder.matches(dto.getPassword(), member.getPassword())) {
+            throw new CustomException(ErrorCode.PASSWORD_INCORRECT);
+        }
         if (EmptyTool.notEmpty(dto.getUsername())) {
             member.updateUsername(dto.getUsername());
-        }
-        if (EmptyTool.notEmpty(dto.getNewPassword())) {
-            member.updatePassword(dto.getNewPassword());
         }
         if (EmptyTool.notEmpty(dto.getEmail())) {
             member.updateEmail(dto.getEmail());
@@ -60,14 +64,26 @@ public class MemberService {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void updatePassword(Long id, String oldPassword, String newPassword) {
         Member member = findMember(id);
+        if (!passwordEncoder.matches(oldPassword, member.getPassword())) {
+            throw new CustomException(ErrorCode.PASSWORD_INCORRECT);
+        }
+        member.updatePassword(passwordEncoder.encode(newPassword));
+    }
+
+    @Transactional
+    public void delete(Long id, @Valid DeleteMemberRequestDto dto) {
+        Member member = findMember(id);
+        if (!passwordEncoder.matches(dto.getPassword(), member.getPassword())) {
+            throw new CustomException(ErrorCode.PASSWORD_INCORRECT);
+        }
         memberRepository.delete(member);
     }
 
     public Member findMember(Long id) {
         if (!id.equals(MemberContext.getMemberId())) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED, "요청 id를 확인해주세요. id = " + id);
+            throw new CustomException(ErrorCode.UNAUTHORIZED, String.valueOf(id));
         }
         Member member = memberRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         if (EmptyTool.notEmpty(member.getDeletedAt())) {

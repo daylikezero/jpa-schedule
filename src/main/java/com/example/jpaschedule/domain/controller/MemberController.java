@@ -1,7 +1,9 @@
 package com.example.jpaschedule.domain.controller;
 
+import com.example.jpaschedule.domain.dto.request.DeleteMemberRequestDto;
 import com.example.jpaschedule.domain.dto.request.SignUpRequestDto;
 import com.example.jpaschedule.domain.dto.request.MemberRequestDto;
+import com.example.jpaschedule.domain.dto.request.UpdatePasswordRequestDto;
 import com.example.jpaschedule.domain.dto.response.MemberResponseDto;
 import com.example.jpaschedule.domain.service.MemberService;
 import jakarta.validation.Valid;
@@ -41,9 +43,15 @@ public class MemberController {
         return ResponseEntity.ok(updateResponseDto);
     }
 
+    @PatchMapping("/{id}/password")
+    public ResponseEntity<MemberResponseDto> updatePassword(@PathVariable Long id, @Valid @RequestBody UpdatePasswordRequestDto dto) {
+        memberService.updatePassword(id, dto.getOldPassword(), dto.getNewPassword());
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        memberService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id, @Valid @RequestBody DeleteMemberRequestDto dto) {
+        memberService.delete(id, dto);
         return ResponseEntity.ok().build();
     }
 }

@@ -36,7 +36,6 @@ public class LoginFilter implements Filter {
                 return;
             }
             MemberContext.setMemberId((Long) session.getAttribute(Const.SESSION_KEY));
-            log.info("로그인 성공");
         }
         chain.doFilter(request, response);
     }
