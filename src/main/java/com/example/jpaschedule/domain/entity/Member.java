@@ -32,10 +32,14 @@ public class Member extends BaseEntity {
         this.id = id;
     }
 
-    public Member(String username, String password, String email) {
+    private Member(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
+    }
+
+    public static Member of(String username, String password, String email) {
+        return new Member(username, password, email);
     }
 
     public void updateUsername(String username) {

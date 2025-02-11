@@ -27,21 +27,21 @@ public class ScheduleService {
         Member findMember = memberService.getMember(MemberContext.getMemberId());
         Schedule schedule = new Schedule(title, contents, findMember);
         scheduleRepository.save(schedule);
-        return new ScheduleResponseDto(schedule.getId(), schedule.getMember().getUsername(), schedule.getTitle(), schedule.getContents());
+        return ScheduleResponseDto.fromSchedule(schedule);
     }
 
     public List<ScheduleResponseDto> findAll() {
         List<Schedule> schedules = scheduleRepository.findAllByMember_Id(MemberContext.getMemberId());
         List<ScheduleResponseDto> scheduleResponseDtos = new ArrayList<>();
         for (Schedule schedule : schedules) {
-            scheduleResponseDtos.add(new ScheduleResponseDto(schedule.getId(), schedule.getMember().getUsername(), schedule.getTitle(), schedule.getContents()));
+            scheduleResponseDtos.add(ScheduleResponseDto.fromSchedule(schedule));
         }
         return scheduleResponseDtos;
     }
 
     public ScheduleResponseDto findById(Long id) {
         Schedule findSchedule = getSchedule(id);
-        return new ScheduleResponseDto(findSchedule.getId(), findSchedule.getMember().getUsername(), findSchedule.getTitle(), findSchedule.getContents());
+        return ScheduleResponseDto.fromSchedule(findSchedule);
     }
 
     @Transactional
@@ -53,7 +53,7 @@ public class ScheduleService {
         if (EmptyTool.notEmpty(dto.getContents())) {
             schedule.updateContents(dto.getContents());
         }
-        return new ScheduleResponseDto(schedule.getId(), schedule.getMember().getUsername(), schedule.getTitle(), schedule.getContents());
+        return ScheduleResponseDto.fromSchedule(schedule);
     }
 
     public void delete(Long id) {
