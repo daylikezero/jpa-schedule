@@ -6,11 +6,11 @@ import com.example.jpaschedule.domain.entity.Member;
 import com.example.jpaschedule.domain.repository.MemberRepository;
 import com.example.jpaschedule.config.context.MemberContext;
 import com.example.jpaschedule.common.util.EmptyTool;
+import com.example.jpaschedule.exception.CustomException;
+import com.example.jpaschedule.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +21,13 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Transactional
     public MemberResponseDto save(String username, String password, String email) {
         Member savedMember = memberRepository.save(Member.of(username, password, email));
         return MemberResponseDto.fromMember(savedMember);
     }
 
+    @Transactional(readOnly = true)
     public List<MemberResponseDto> findAll() {
         List<Member> members = memberRepository.findAll();
         List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
@@ -35,14 +37,16 @@ public class MemberService {
         return memberResponseDtos;
     }
 
+    @Transactional(readOnly = true)
     public MemberResponseDto findById(Long id) {
-        Member findMember = getMember(id);
+        Member findMember = findMember(id);
         return MemberResponseDto.fromMember(findMember);
     }
 
     @Transactional
     public MemberResponseDto update(Long id, MemberRequestDto dto) {
-        Member member = getMember(id);
+        Member member = findMember(id);
+        // TODO 기존 비밀번호 검증 로직
         if (EmptyTool.notEmpty(dto.getUsername())) {
             member.updateUsername(dto.getUsername());
         }
@@ -57,14 +61,18 @@ public class MemberService {
 
     @Transactional
     public void delete(Long id) {
-        Member member = getMember(id);
+        Member member = findMember(id);
         memberRepository.delete(member);
     }
 
-    public Member getMember(Long id) {
+    public Member findMember(Long id) {
         if (!id.equals(MemberContext.getMemberId())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "조회 권한이 없습니다.");
+            throw new CustomException(ErrorCode.UNAUTHORIZED, "요청 id를 확인해주세요. id = " + id);
         }
-        return memberRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id));
+        Member member = memberRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        if (EmptyTool.notEmpty(member.getDeletedAt())) {
+            throw new CustomException(ErrorCode.ENTITY_DELETED, String.valueOf(id));
+        }
+        return member;
     }
 }

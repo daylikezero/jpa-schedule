@@ -9,7 +9,6 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Table(name = "member")
 @SQLDelete(sql = "UPDATE member SET deleted_at = now() WHERE id = ?")
-@SQLRestriction("deleted_at IS NULL")
 public class Member extends BaseEntity {
 
     @Id
@@ -26,10 +25,6 @@ public class Member extends BaseEntity {
 
     public Member() {
 
-    }
-
-    public Member(Long id) {
-        this.id = id;
     }
 
     private Member(String username, String password, String email) {

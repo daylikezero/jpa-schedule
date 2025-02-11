@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     private ResponseEntity<ErrorResponseDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         StringBuilder errorMsg = new StringBuilder();
         e.getBindingResult().getAllErrors().forEach(error ->
-                errorMsg.append(error.getDefaultMessage()).append(System.lineSeparator()));
+                errorMsg.append(error.getDefaultMessage()).append(" "));
         return ErrorResponseDto.errResponseEntity(new CustomException(ErrorCode.INVALID_CONSTRAINTS, errorMsg.toString()));
     }
 
