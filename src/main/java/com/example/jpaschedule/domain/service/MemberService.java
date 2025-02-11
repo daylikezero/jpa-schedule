@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,9 @@ public class MemberService {
 
     @Transactional
     public MemberResponseDto save(String username, String password, String email) {
+        if (findByEmail(email).isPresent()) {
+            throw new CustomException(ErrorCode.DUPLICATE_EMAIL);
+        }
         String encodePassword = passwordEncoder.encode(password);
         Member savedMember = memberRepository.save(Member.of(username, encodePassword, email));
         return MemberResponseDto.fromMember(savedMember);
@@ -90,5 +94,9 @@ public class MemberService {
             throw new CustomException(ErrorCode.ENTITY_DELETED, String.valueOf(id));
         }
         return member;
+    }
+
+    public Optional<Member> findByEmail(String email) {
+        return memberRepository.findByEmail(email);
     }
 }
