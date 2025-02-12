@@ -1,5 +1,6 @@
 package com.example.jpaschedule.domain.dto.response;
 
+import com.example.jpaschedule.common.util.LocalDateTimeUtils;
 import com.example.jpaschedule.domain.entity.Reply;
 import lombok.Getter;
 
@@ -7,24 +8,30 @@ import lombok.Getter;
 public class ReplyResponseDto {
 
     private final Long id;
-
     private final Long scheduleId;
-
     private final Long memberId;
-
     private final String username;
-
     private final String contents;
+    private final String createdAt;
+    private final String updatedAt;
 
-    private ReplyResponseDto(Long id, Long scheduleId, Long memberId, String username, String contents) {
+    private ReplyResponseDto(Long id, Long scheduleId, Long memberId, String username, String contents, String createdAt, String updatedAt) {
         this.id = id;
         this.scheduleId = scheduleId;
         this.memberId = memberId;
         this.username = username;
         this.contents = contents;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public static ReplyResponseDto fromReply(Reply reply) {
-        return new ReplyResponseDto(reply.getId(), reply.getSchedule().getId(), reply.getMember().getId(), reply.getMember().getUsername(), reply.getContents());
+        return new ReplyResponseDto(reply.getId(),
+                reply.getSchedule().getId(),
+                reply.getMember().getId(),
+                reply.getMember().getUsername(),
+                reply.getContents(),
+                LocalDateTimeUtils.formatToYmdHms(reply.getCreatedAt()),
+                LocalDateTimeUtils.formatToYmdHms(reply.getUpdatedAt()));
     }
 }

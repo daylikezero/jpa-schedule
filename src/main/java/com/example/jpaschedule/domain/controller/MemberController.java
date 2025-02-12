@@ -22,7 +22,7 @@ public class MemberController {
 
     @PostMapping("/signup")
     public ResponseEntity<MemberResponseDto> signup(@Valid @RequestBody SignUpRequestDto dto) {
-        return ResponseEntity.ok(memberService.save(dto.getUsername(), dto.getPassword(), dto.getEmail()));
+        return ResponseEntity.ok(memberService.signup(dto.getUsername(), dto.getPassword(), dto.getEmail()));
     }
 
     @GetMapping

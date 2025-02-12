@@ -27,7 +27,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public MemberResponseDto save(String username, String password, String email) {
+    public MemberResponseDto signup(String username, String password, String email) {
         if (findByEmail(email).isPresent()) {
             throw new CustomException(ErrorCode.DUPLICATE_EMAIL);
         }
@@ -39,11 +39,11 @@ public class MemberService {
     @Transactional(readOnly = true)
     public List<MemberResponseDto> findAll() {
         List<Member> members = memberRepository.findAll();
-        List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
+        List<MemberResponseDto> memberResponseDtoList = new ArrayList<>();
         for (Member member : members) {
-            memberResponseDtos.add(MemberResponseDto.fromMember(member));
+            memberResponseDtoList.add(MemberResponseDto.fromMember(member));
         }
-        return memberResponseDtos;
+        return memberResponseDtoList;
     }
 
     @Transactional(readOnly = true)
