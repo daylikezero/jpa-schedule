@@ -11,7 +11,10 @@ import com.example.jpaschedule.domain.repository.ScheduleRepositoryCustom;
 import com.example.jpaschedule.exception.CustomException;
 import com.example.jpaschedule.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
