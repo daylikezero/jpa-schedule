@@ -1,8 +1,8 @@
 package com.example.jpaschedule.domain.controller;
 
 import com.example.jpaschedule.domain.dto.request.DeleteMemberRequestDto;
-import com.example.jpaschedule.domain.dto.request.SignUpRequestDto;
 import com.example.jpaschedule.domain.dto.request.MemberRequestDto;
+import com.example.jpaschedule.domain.dto.request.SignUpRequestDto;
 import com.example.jpaschedule.domain.dto.request.UpdatePasswordRequestDto;
 import com.example.jpaschedule.domain.dto.response.MemberResponseDto;
 import com.example.jpaschedule.domain.service.MemberService;
