@@ -16,8 +16,8 @@ public enum ErrorCode {
     PASSWORD_INCORRECT(HttpStatus.UNAUTHORIZED, "007_PASSWORD_INCORRECT", "비밀번호가 일치하지 않습니다."),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "008_UNAUTHORIZED", "접근 권한이 없습니다."),
     DUPLICATE_EMAIL(HttpStatus.BAD_REQUEST, "009_DUPLICATE_EMAIL", "이미 등록된 이메일입니다."),
+    REPLY_NOT_FOUND(HttpStatus.NOT_FOUND, "010_REPLY_NOT_FOUND", "존재하지 않는 댓글 ID 입니다."),
     UNKNOWN(HttpStatus.INTERNAL_SERVER_ERROR, "999_UNKNOWN", "알 수 없는 오류가 발생했습니다.");
-
     private final HttpStatus status;
     private final String code;
     private final String message;

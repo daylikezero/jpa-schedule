@@ -42,14 +42,13 @@ public class ScheduleService {
 
     @Transactional(readOnly = true)
     public ScheduleResponseDto findById(Long id) {
-        Schedule findSchedule = findSchedule(id);
-        return ScheduleResponseDto.fromSchedule(findSchedule);
+        return ScheduleResponseDto.fromSchedule(findSchedule(id));
     }
 
     @Transactional
     public ScheduleResponseDto update(Long id, ScheduleRequestDto dto) {
         Schedule schedule = findSchedule(id);
-        validMemberId(schedule);
+        validScheduleMemberId(schedule);
         if (EmptyTool.notEmpty(dto.getTitle())) {
             schedule.updateTitle(dto.getTitle());
         }
@@ -62,7 +61,7 @@ public class ScheduleService {
     @Transactional
     public void delete(Long id) {
         Schedule schedule = findSchedule(id);
-        validMemberId(schedule);
+        validScheduleMemberId(schedule);
         scheduleRepository.delete(schedule);
     }
 
@@ -74,7 +73,7 @@ public class ScheduleService {
         return schedule;
     }
 
-    private void validMemberId(Schedule schedule) {
+    private void validScheduleMemberId(Schedule schedule) {
         if (!schedule.getMember().getId().equals(MemberContext.getMemberId())) {
             throw new CustomException(ErrorCode.UNAUTHORIZED, "로그인 ID와 작성자 ID가 일치하지 않습니다.");
         }
