@@ -10,19 +10,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/schedules/{id}")
+@RequestMapping("/api/v1/replies")
 @RequiredArgsConstructor
 public class ReplyController {
 
     private final ReplyService replyService;
 
-    @PostMapping("/replies")
-    public ResponseEntity<ReplyResponseDto> create(@PathVariable("id") Long id, @RequestBody ReplyRequestDto dto) {
-        return ResponseEntity.ok(replyService.create(id, dto.getContents()));
+    @PostMapping
+    public ResponseEntity<ReplyResponseDto> create(@RequestBody ReplyRequestDto dto) {
+        return ResponseEntity.ok(replyService.create(dto.getScheduleId(), dto.getContents()));
     }
 
-    @GetMapping("/replies")
-    public ResponseEntity<List<ReplyResponseDto>> findAll(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(replyService.findAll(id));
+    @GetMapping
+    public ResponseEntity<List<ReplyResponseDto>> findAll(@RequestBody ReplyRequestDto dto) {
+        return ResponseEntity.ok(replyService.findAll(dto.getScheduleId()));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ReplyResponseDto> findById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(replyService.findById(id));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ReplyResponseDto> update(@PathVariable("id") Long id, @RequestBody ReplyRequestDto dto) {
+        return ResponseEntity.ok(replyService.update(id, dto));
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+        replyService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }

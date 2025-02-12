@@ -37,4 +37,8 @@ public class Reply extends BaseEntity {
     public static Reply of(String contents, Member member, Schedule schedule) {
         return new Reply(contents, member, schedule);
     }
+
+    public void updateContents(String contents) {
+        this.contents = contents;
+    }
 }
