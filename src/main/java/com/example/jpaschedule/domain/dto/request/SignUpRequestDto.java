@@ -4,9 +4,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class SignUpRequestDto {
 
     @NotBlank(message = "유저명은 필수값입니다.")
@@ -22,9 +24,4 @@ public class SignUpRequestDto {
     @Email(message = "이메일 형식으로 작성해 주세요.")
     private final String email;
 
-    public SignUpRequestDto(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
 }
