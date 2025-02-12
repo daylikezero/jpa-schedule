@@ -1,11 +1,15 @@
 package com.example.jpaschedule.domain.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Getter
@@ -21,7 +25,9 @@ public class ScheduleRequestDto {
     @NotBlank(message = "할일 내용은 필수값입니다.")
     private final String contents;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private final Date updatedAt;
+    private final String username;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private final LocalDate updatedAt;
 
 }

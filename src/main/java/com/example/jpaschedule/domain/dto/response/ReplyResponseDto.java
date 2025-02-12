@@ -1,8 +1,10 @@
 package com.example.jpaschedule.domain.dto.response;
 
-import com.example.jpaschedule.common.util.LocalDateTimeUtils;
 import com.example.jpaschedule.domain.entity.Reply;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 @Getter
 public class ReplyResponseDto {
@@ -12,10 +14,12 @@ public class ReplyResponseDto {
     private final Long memberId;
     private final String username;
     private final String contents;
-    private final String createdAt;
-    private final String updatedAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime updatedAt;
 
-    private ReplyResponseDto(Long id, Long scheduleId, Long memberId, String username, String contents, String createdAt, String updatedAt) {
+    private ReplyResponseDto(Long id, Long scheduleId, Long memberId, String username, String contents, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.scheduleId = scheduleId;
         this.memberId = memberId;
@@ -31,7 +35,7 @@ public class ReplyResponseDto {
                 reply.getMember().getId(),
                 reply.getMember().getUsername(),
                 reply.getContents(),
-                LocalDateTimeUtils.formatToYmdHms(reply.getCreatedAt()),
-                LocalDateTimeUtils.formatToYmdHms(reply.getUpdatedAt()));
+                reply.getCreatedAt(),
+                reply.getUpdatedAt());
     }
 }
