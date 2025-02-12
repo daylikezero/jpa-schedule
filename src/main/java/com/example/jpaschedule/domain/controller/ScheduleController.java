@@ -18,8 +18,7 @@ public class ScheduleController {
 
     @PostMapping
     public ResponseEntity<ScheduleResponseDto> save(@RequestBody ScheduleRequestDto dto) {
-        ScheduleResponseDto saveSchedule = scheduleService.save(dto.getTitle(), dto.getContents());
-        return ResponseEntity.ok(saveSchedule);
+        return ResponseEntity.ok(scheduleService.save(dto.getTitle(), dto.getContents()));
     }
 
     @GetMapping
@@ -29,14 +28,12 @@ public class ScheduleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> findById(@PathVariable Long id) {
-        ScheduleResponseDto findResponseDto = scheduleService.findById(id);
-        return ResponseEntity.ok(findResponseDto);
+        return ResponseEntity.ok(scheduleService.findById(id));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> update(@PathVariable Long id, @RequestBody ScheduleRequestDto dto) {
-        ScheduleResponseDto updateResponseDto = scheduleService.update(id, dto);
-        return ResponseEntity.ok(updateResponseDto);
+        return ResponseEntity.ok(scheduleService.update(id, dto));
     }
 
     @PostMapping("/{id}")

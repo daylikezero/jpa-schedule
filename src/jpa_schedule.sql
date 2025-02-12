@@ -32,3 +32,17 @@ CREATE TABLE schedule
     deleted_at TIMESTAMP COMMENT '삭제일',
     FOREIGN KEY (member_id) REFERENCES member(id)
 );
+
+-- 테이블 생성 (댓글)
+CREATE TABLE reply
+(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '댓글 식별자',
+    member_id BIGINT NOT NULL COMMENT '작성자',
+    schedule_id BIGINT NOT NULL COMMENT '작성글',
+    contents VARCHAR(1000) COMMENT '댓글',
+    created_at TIMESTAMP NOT NULL COMMENT '등록일',
+    updated_at TIMESTAMP NOT NULL COMMENT '수정일',
+    deleted_at TIMESTAMP COMMENT '삭제일',
+    FOREIGN KEY (member_id) REFERENCES member(id),
+    FOREIGN KEY (schedule_id) REFERENCES schedule(id)
+);

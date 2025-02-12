@@ -26,19 +26,18 @@ public class ScheduleService {
     @Transactional
     public ScheduleResponseDto save(String title, String contents) {
         Member findMember = memberService.findMember(MemberContext.getMemberId());
-        Schedule schedule = new Schedule(title, contents, findMember);
-        scheduleRepository.save(schedule);
+        Schedule schedule = scheduleRepository.save(Schedule.of(title, contents, findMember));
         return ScheduleResponseDto.fromSchedule(schedule);
     }
 
     @Transactional(readOnly = true)
     public List<ScheduleResponseDto> findAll() {
-        List<Schedule> schedules = scheduleRepository.findAllByMember_Id(MemberContext.getMemberId());
-        List<ScheduleResponseDto> scheduleResponseDtos = new ArrayList<>();
+        List<Schedule> schedules = scheduleRepository.findAll();
+        List<ScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>();
         for (Schedule schedule : schedules) {
-            scheduleResponseDtos.add(ScheduleResponseDto.fromSchedule(schedule));
+            scheduleResponseDtoList.add(ScheduleResponseDto.fromSchedule(schedule));
         }
-        return scheduleResponseDtos;
+        return scheduleResponseDtoList;
     }
 
     @Transactional(readOnly = true)
@@ -50,6 +49,7 @@ public class ScheduleService {
     @Transactional
     public ScheduleResponseDto update(Long id, ScheduleRequestDto dto) {
         Schedule schedule = findSchedule(id);
+        validMemberId(schedule);
         if (EmptyTool.notEmpty(dto.getTitle())) {
             schedule.updateTitle(dto.getTitle());
         }
@@ -62,17 +62,21 @@ public class ScheduleService {
     @Transactional
     public void delete(Long id) {
         Schedule schedule = findSchedule(id);
+        validMemberId(schedule);
         scheduleRepository.delete(schedule);
     }
 
-    private Schedule findSchedule(Long id) {
+    public Schedule findSchedule(Long id) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
         if (EmptyTool.notEmpty(schedule.getDeletedAt())) {
             throw new CustomException(ErrorCode.ENTITY_DELETED, String.valueOf(id));
         }
+        return schedule;
+    }
+
+    private void validMemberId(Schedule schedule) {
         if (!schedule.getMember().getId().equals(MemberContext.getMemberId())) {
             throw new CustomException(ErrorCode.UNAUTHORIZED, "로그인 ID와 작성자 ID가 일치하지 않습니다.");
         }
-        return schedule;
     }
 }
