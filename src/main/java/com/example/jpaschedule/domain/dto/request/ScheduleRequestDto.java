@@ -2,9 +2,11 @@ package com.example.jpaschedule.domain.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class ScheduleRequestDto {
 
     private final Long memberId;
@@ -16,9 +18,4 @@ public class ScheduleRequestDto {
     @NotBlank(message = "할일 내용은 필수값입니다.")
     private final String contents;
 
-    public ScheduleRequestDto(Long memberId, String title, String contents) {
-        this.memberId = memberId;
-        this.title = title;
-        this.contents = contents;
-    }
 }
