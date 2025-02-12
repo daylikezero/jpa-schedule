@@ -2,10 +2,12 @@ package com.example.jpaschedule.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
 
 @Getter
 @Entity
 @Table(name = "reply")
+@SQLDelete(sql = "UPDATE reply SET deleted_at = now() WHERE id = ?")
 public class Reply extends BaseEntity {
 
     @Id
@@ -13,20 +15,26 @@ public class Reply extends BaseEntity {
     private Long id;
 
     @Column(nullable = false, columnDefinition = "longtext")
-    private String content;
+    private String contents;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
     public Reply() {
     }
 
-    public Reply(String content) {
-        this.content = content;
+    private Reply(String contents, Member member, Schedule schedule) {
+        this.contents = contents;
+        this.member = member;
+        this.schedule = schedule;
+    }
+
+    public static Reply of(String contents, Member member, Schedule schedule) {
+        return new Reply(contents, member, schedule);
     }
 }

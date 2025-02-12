@@ -28,10 +28,14 @@ public class Schedule extends BaseEntity {
     public Schedule() {
     }
 
-    public Schedule(String title, String contents, Member member) {
+    private Schedule(String title, String contents, Member member) {
         this.title = title;
         this.contents = contents;
         this.member = member;
+    }
+
+    public static Schedule of(String title, String contents, Member member) {
+        return new Schedule(title, contents, member);
     }
 
     public void updateTitle(String title) {

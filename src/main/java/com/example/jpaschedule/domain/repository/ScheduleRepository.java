@@ -8,5 +8,4 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-    List<Schedule> findAllByMember_Id(Long memberId);
 }

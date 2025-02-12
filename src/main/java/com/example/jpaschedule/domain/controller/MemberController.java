@@ -22,8 +22,7 @@ public class MemberController {
 
     @PostMapping("/signup")
     public ResponseEntity<MemberResponseDto> signup(@Valid @RequestBody SignUpRequestDto dto) {
-        MemberResponseDto saveResponseDto = memberService.save(dto.getUsername(), dto.getPassword(), dto.getEmail());
-        return ResponseEntity.ok(saveResponseDto);
+        return ResponseEntity.ok(memberService.save(dto.getUsername(), dto.getPassword(), dto.getEmail()));
     }
 
     @GetMapping
@@ -33,14 +32,12 @@ public class MemberController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MemberResponseDto> findById(@PathVariable Long id) {
-        MemberResponseDto findResponseDto = memberService.findById(id);
-        return ResponseEntity.ok(findResponseDto);
+        return ResponseEntity.ok(memberService.findById(id));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<MemberResponseDto> update(@PathVariable Long id, @Valid @RequestBody MemberRequestDto dto) {
-        MemberResponseDto updateResponseDto = memberService.update(id, dto);
-        return ResponseEntity.ok(updateResponseDto);
+        return ResponseEntity.ok(memberService.update(id, dto));
     }
 
     @PatchMapping("/{id}/password")
