@@ -38,7 +38,9 @@ public class ReplyService {
         List<Reply> replies = replyRepository.findAllBySchedule_Id(scheduleId);
         List<ReplyResponseDto> replyResponseDtoList = new ArrayList<>();
         for (Reply reply : replies) {
-            replyResponseDtoList.add(ReplyResponseDto.fromReply(reply));
+            if (EmptyTool.empty(reply.getDeletedAt())) {
+                replyResponseDtoList.add(ReplyResponseDto.fromReply(reply));
+            }
         }
         return replyResponseDtoList;
     }
@@ -71,7 +73,7 @@ public class ReplyService {
         return reply;
     }
 
-    private static void validReplyMemberId(Reply reply) {
+    private void validReplyMemberId(Reply reply) {
         if (!reply.getMember().getId().equals(MemberContext.getMemberId())) {
             throw new CustomException(ErrorCode.UNAUTHORIZED, "로그인 ID와 작성자 ID가 일치하지 않습니다.");
         }

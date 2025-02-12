@@ -10,6 +10,10 @@ import com.example.jpaschedule.common.util.EmptyTool;
 import com.example.jpaschedule.exception.CustomException;
 import com.example.jpaschedule.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,13 +35,10 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public List<ScheduleResponseDto> findAll() {
-        List<Schedule> schedules = scheduleRepository.findAll();
-        List<ScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>();
-        for (Schedule schedule : schedules) {
-            scheduleResponseDtoList.add(ScheduleResponseDto.fromSchedule(schedule));
-        }
-        return scheduleResponseDtoList;
+    public Page<ScheduleResponseDto> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("updatedAt").descending());
+        Page<Schedule> schedules = scheduleRepository.findAllByOrderByUpdatedAtDesc(pageable);
+        return schedules.map(ScheduleResponseDto::fromSchedule);
     }
 
     @Transactional(readOnly = true)

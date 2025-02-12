@@ -4,6 +4,9 @@ import com.example.jpaschedule.domain.dto.request.ScheduleRequestDto;
 import com.example.jpaschedule.domain.dto.response.ScheduleResponseDto;
 import com.example.jpaschedule.domain.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +25,8 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ScheduleResponseDto>> findAll() {
-        return ResponseEntity.ok(scheduleService.findAll());
+    public ResponseEntity<Page<ScheduleResponseDto>> findAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(scheduleService.findAll(page, size));
     }
 
     @GetMapping("/{id}")
