@@ -1,21 +1,24 @@
 package com.example.jpaschedule.domain.service;
 
 import com.example.jpaschedule.common.util.EmptyTool;
+import com.example.jpaschedule.common.util.LocalDateTimeUtils;
 import com.example.jpaschedule.config.context.MemberContext;
 import com.example.jpaschedule.domain.dto.request.ScheduleRequestDto;
 import com.example.jpaschedule.domain.dto.response.ScheduleResponseDto;
 import com.example.jpaschedule.domain.entity.Member;
+import com.example.jpaschedule.domain.entity.QSchedule;
 import com.example.jpaschedule.domain.entity.Schedule;
 import com.example.jpaschedule.domain.repository.ScheduleRepository;
+import com.example.jpaschedule.domain.repository.ScheduleRepositoryCustom;
 import com.example.jpaschedule.exception.CustomException;
 import com.example.jpaschedule.exception.ErrorCode;
+import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +26,7 @@ public class ScheduleService {
 
     private final MemberService memberService;
     private final ScheduleRepository scheduleRepository;
+    private final ScheduleRepositoryCustom scheduleRepositoryCustom;
 
     @Transactional
     public ScheduleResponseDto create(String title, String contents) {
@@ -32,10 +36,31 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ScheduleResponseDto> findAll(int page, int size) {
+    public Page<ScheduleResponseDto> findAll(int page, int size, ScheduleRequestDto dto) {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by("updatedAt").descending());
-        Page<Schedule> schedules = scheduleRepository.findAllByOrderByUpdatedAtDesc(pageable);
+        BooleanBuilder builder = setDynamicQuery(dto);
+        Page<Schedule> schedules = scheduleRepositoryCustom.findDynamicSchedules(builder, pageable);
         return schedules.map(ScheduleResponseDto::fromSchedule);
+    }
+
+    private BooleanBuilder setDynamicQuery(ScheduleRequestDto dto) {
+        QSchedule qSchedule = QSchedule.schedule;
+        BooleanBuilder builder = new BooleanBuilder();
+        if (EmptyTool.notEmpty(dto.getTitle())) {
+            builder.and(qSchedule.title.like("%" + dto.getTitle() + "%"));
+        }
+        if (EmptyTool.notEmpty(dto.getContents())) {
+            builder.and(qSchedule.contents.like("%" + dto.getContents() + "%"));
+        }
+        if (EmptyTool.notEmpty(dto.getMemberId())) {
+            builder.and(qSchedule.member.id.eq(dto.getMemberId()));
+        }
+        if (EmptyTool.notEmpty(dto.getUpdatedAt())) {
+            LocalDateTime updatedLocalDateTime = LocalDateTimeUtils.dateToLocalDateTime(dto.getUpdatedAt());
+            builder.and(qSchedule.updatedAt.between(updatedLocalDateTime, updatedLocalDateTime.plusDays(1)));
+        }
+        builder.and(qSchedule.deletedAt.isNull());
+        return builder;
     }
 
     @Transactional(readOnly = true)

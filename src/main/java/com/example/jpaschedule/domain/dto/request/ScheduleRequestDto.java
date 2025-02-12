@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 @Getter
 @AllArgsConstructor
@@ -17,5 +20,8 @@ public class ScheduleRequestDto {
 
     @NotBlank(message = "할일 내용은 필수값입니다.")
     private final String contents;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private final Date updatedAt;
 
 }
