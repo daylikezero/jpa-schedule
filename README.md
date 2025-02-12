@@ -41,12 +41,12 @@
   
 | 기능 | Method | URI | Request | Response | Status |
 | --- | --- | --- | --- | --- | --- |
-| 일정 작성 | POST | /api/v1/schedules | {<br>"title": string,<br>"contents": string<br>} | {<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string <br>} | 200, 400, 404 |
-| 일정 목록 조회 | GET | /api/v1/schedules | {<br>"updatedAt": string<br>} | [<br>{<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string <br>},<br>// … <br>] | 200, 400|
-| 일정 단건 조회 | GET | /api/v1/schedules/{{id}} |  | {<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string<br>} | 200, 404 |
-| 일정 수정 | PATCH | /api/v1/schedules/{{id}} |  | {<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string<br>} | 200, 400, 404 |
+| 일정 작성 | POST | /api/v1/schedules | {<br>"title": string,<br>"contents": string<br>} | {<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string,<br>"replyCount": number,<br>"createdAt": string,<br>"updatedAt": string<br>} | 200, 400, 404 |
+| 일정 페이지 조회 | GET | /api/v1/schedules?page={{number}}&size={{number}} |  | {<br> "content": [ <br>{ <br>"id": number,<br> "username": string,<br> "title": string,<br> "contents": string,<br> "replyCount": number,<br> "createdAt": string,<br> "updatedAt": string <br>}], <br>"pageable": { <br>"pageNumber": 3,<br> "pageSize": 5,<br> // ...<br> } | 200 |
+| 일정 단건 조회 | GET | /api/v1/schedules/{{id}} |  | {<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string,<br>"replyCount": number,<br>"createdAt": string,<br>"updatedAt": string<br>} | 200, 404 |
+| 일정 수정 | PATCH | /api/v1/schedules/{{id}} | {<br>"title": string,<br>"contents": string<br>} | {<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string,<br>"replyCount": number,<br>"createdAt": string,<br>"updatedAt": string<br>} | 200, 400, 404 |
 | 일정 삭제 | POST | /api/v1/schedules/{{id}} |  |  | 200, 404 |
-| 일정 페이지 조회 | GET | /api/v1/schedules?pageNo={{pageNo}}&pageSize={{Size}} |  | {<br>"content":[<br>{<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string<br>},{<br>// …<br>},<br>// … <br>],<br>"pageable": { <br>"sort": {<br> // … <br>}, <br>"pageSize": number,<br>"pageNumber": number,<br> // … <br>},<br>"totalPages": number,<br> // … <br>} | 200 |
+
 
 </div>
 
@@ -55,10 +55,11 @@
   
 | 기능 | Method | URI | Request | Response | Status |
 | --- | --- | --- | --- | --- | --- |
-| 유저 생성 | POST | /api/v1/members | {<br>"username": string,<br>"password": string,<br>"email": string<br>} | {<br>"id": number,<br>"username": string,<br>"email": string<br>} | 200, 400 |
-| 유저 목록 조회 | GET | /api/v1/members |  | [<br>{<br>"id": int,<br>"username": string,<br>"email": string<br>},<br> //... <br>] | 200, 400 |
-| 유저 아이디 조회 | GET | /api/v1/members/{{id}} |  | {<br>"id": int,<br>"username": string,<br>"email": string<br>} | 200, 404 |
-| 유저 수정 | PATCH | /api/v1/members/{{id}} | {<br>"password": string,<br>"newPassword": string,<br>"username": string<br>"email": string<br>} | {<br>"id": int,<br>"username": string,<br>"email": string<br>} | 200, 400, 404 |
+| 회원가입 | POST | /api/v1/members/signup | {<br>"username": string,<br>"password": string,<br>"email": string<br>} | {<br>"id": number,<br>"username": string,<br>"email": string,<br>"createdAt": string,<br>"updatedAt": string<br>} | 200, 400 |
+| 유저 목록 조회 | GET | /api/v1/members |  | [<br>{<br>"id": number,<br>"username": string,<br>"email": string,<br>"createdAt": string,<br>"updatedAt": string<br>},<br> //... <br>] | 200, 400 |
+| 유저 아이디 조회 | GET | /api/v1/members/{{id}} |  | {<br>"id": number,<br>"username": string,<br>"email": string,<br>"createdAt": string,<br>"updatedAt": string<br>} | 200, 404 |
+| 유저 수정 | PATCH | /api/v1/members/{{id}} | {<br>"password": string,<br>"username": string<br>"email": string<br>} | {<br>"id": number,<br>"username": string,<br>"email": string,<br>"createdAt": string,<br>"updatedAt": string<br>} | 200, 400, 404 |
+| 유저 비밀번호변경 | PATCH | /api/v1/members/{{id}}/password | {<br>"oldPassword": string,<br>"newPassword": string<br>} |  | 200, 400, 404 |
 | 유저 삭제 | POST | /api/v1/members/{{id}} | {<br>"password": string<br>} |  | 200, 404 |
 
 </div>
@@ -78,10 +79,10 @@
   
 | 기능 | Method | URI | Request | Response | Status |
 | --- | --- | --- | --- | --- | --- |
-| 댓글 작성 | POST | /api/v1/schedules/{{id}}/replies | {<br>"contents": string<br>} | {<br> "id": number,<br> "scheduleId": number,<br> "username": string,<br> "contents": string <br>} | 200, 401 |
-| 댓글 조회 | GET | /api/v1/schedules/{{id}}/replies |  | [<br> {<br> "id": number,<br> "scheduleId": number,<br> "username": string,<br> "contents": string <br>},<br> // … <br>] | 200 |
-| 댓글 수정 | PATCH | /api/v1/schedules/{{id}}/replies/{{id}} | {<br> "contents": string <br>} | {<br> "id": number,<br> "scheduleId": number,<br> "username": string,<br> "contents": string <br>} | 200, 400, 404 |
-| 댓글 삭제 | POST | /api/v1/schedules/{{id}}/replies/{{id}} |  |  | 200, 404 |
+| 댓글 작성 | POST | /api/v1/replies | {<br>"scheduleId": number,<br>"contents": string<br>} | {<br>"id": number,<br>"scheduleId": number,<br>"memberId": number,<br>"username": string,<br>"contents": string,<br>"createdAt": string,<br>"updatedAt": string<br>} | 200, 401 |
+| 댓글 조회 | GET | /api/v1/replies |  | [<br> {<br>"id": number,<br>"scheduleId": number,<br>"memberId": number,<br>"username": string,<br>"contents": string,<br>"createdAt": string,<br>"updatedAt": string<br>},<br> // … <br>] | 200 |
+| 댓글 수정 | PATCH | /api/v1/replies/{{id}} | {<br> "contents": string <br>} | {<br>"id": number,<br>"scheduleId": number,<br>"memberId": number,<br>"username": string,<br>"contents": string,<br>"createdAt": string,<br>"updatedAt": string<br>} | 200, 400, 404 |
+| 댓글 삭제 | POST | /api/v1/replies/{{id}} |  |  | 200, 404 |
 
 </div>
 
