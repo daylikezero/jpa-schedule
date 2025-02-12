@@ -62,6 +62,9 @@ public class MemberService {
             member.updateUsername(dto.getUsername());
         }
         if (EmptyTool.notEmpty(dto.getEmail())) {
+            if (findByEmail(dto.getEmail()).isPresent()) {
+                throw new CustomException(ErrorCode.DUPLICATE_EMAIL);
+            }
             member.updateEmail(dto.getEmail());
         }
         return MemberResponseDto.fromMember(member);
