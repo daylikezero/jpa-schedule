@@ -1,12 +1,12 @@
 package com.example.jpaschedule.domain.service;
 
+import com.example.jpaschedule.common.util.EmptyTool;
+import com.example.jpaschedule.config.context.MemberContext;
 import com.example.jpaschedule.domain.dto.request.ScheduleRequestDto;
 import com.example.jpaschedule.domain.dto.response.ScheduleResponseDto;
 import com.example.jpaschedule.domain.entity.Member;
 import com.example.jpaschedule.domain.entity.Schedule;
 import com.example.jpaschedule.domain.repository.ScheduleRepository;
-import com.example.jpaschedule.config.context.MemberContext;
-import com.example.jpaschedule.common.util.EmptyTool;
 import com.example.jpaschedule.exception.CustomException;
 import com.example.jpaschedule.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;

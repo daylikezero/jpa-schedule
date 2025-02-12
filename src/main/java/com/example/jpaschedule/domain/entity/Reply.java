@@ -3,7 +3,6 @@ package com.example.jpaschedule.domain.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Entity
