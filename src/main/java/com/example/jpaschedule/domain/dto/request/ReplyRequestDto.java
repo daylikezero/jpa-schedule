@@ -6,9 +6,12 @@ import lombok.Getter;
 @Getter
 public class ReplyRequestDto {
 
-    private Long scheduleId;
+    private final Long scheduleId;
     @NotBlank(message = "댓글 내용은 필수값입니다.")
-    private String contents;
+    private final String contents;
 
-    
+    public ReplyRequestDto(Long scheduleId, String contents) {
+        this.scheduleId = scheduleId;
+        this.contents = contents;
+    }
 }
