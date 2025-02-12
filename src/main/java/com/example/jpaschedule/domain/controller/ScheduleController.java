@@ -5,12 +5,8 @@ import com.example.jpaschedule.domain.dto.response.ScheduleResponseDto;
 import com.example.jpaschedule.domain.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/schedules")
@@ -20,8 +16,8 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> save(@RequestBody ScheduleRequestDto dto) {
-        return ResponseEntity.ok(scheduleService.save(dto.getTitle(), dto.getContents()));
+    public ResponseEntity<ScheduleResponseDto> create(@RequestBody ScheduleRequestDto dto) {
+        return ResponseEntity.ok(scheduleService.create(dto.getTitle(), dto.getContents()));
     }
 
     @GetMapping

@@ -17,9 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
@@ -28,7 +25,7 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
     @Transactional
-    public ScheduleResponseDto save(String title, String contents) {
+    public ScheduleResponseDto create(String title, String contents) {
         Member findMember = memberService.findMember(MemberContext.getMemberId());
         Schedule schedule = scheduleRepository.save(Schedule.of(title, contents, findMember));
         return ScheduleResponseDto.fromSchedule(schedule);
