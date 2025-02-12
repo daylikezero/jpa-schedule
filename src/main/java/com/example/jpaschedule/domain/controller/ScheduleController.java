@@ -21,8 +21,8 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ScheduleResponseDto>> findAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(scheduleService.findAll(page, size));
+    public ResponseEntity<Page<ScheduleResponseDto>> findAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size, @RequestBody ScheduleRequestDto dto) {
+        return ResponseEntity.ok(scheduleService.findAll(page, size, dto));
     }
 
     @GetMapping("/{id}")
