@@ -1,8 +1,10 @@
 package com.example.jpaschedule.domain.dto.response;
 
-import com.example.jpaschedule.common.util.LocalDateTimeUtils;
 import com.example.jpaschedule.domain.entity.Schedule;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 @Getter
 public class ScheduleResponseDto {
@@ -12,11 +14,13 @@ public class ScheduleResponseDto {
     private final String title;
     private final String contents;
     private final Integer replyCount;
-    private final String createdAt;
-    private final String updatedAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime updatedAt;
 
 
-    private ScheduleResponseDto(Long id, String username, String title, String contents, Integer replyCount, String createdAt, String updatedAt) {
+    private ScheduleResponseDto(Long id, String username, String title, String contents, Integer replyCount, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.username = username;
         this.title = title;
@@ -32,8 +36,8 @@ public class ScheduleResponseDto {
                 schedule.getTitle(),
                 schedule.getContents(),
                 schedule.getReplies().size(),
-                LocalDateTimeUtils.formatToYmdHms(schedule.getCreatedAt()),
-                LocalDateTimeUtils.formatToYmdHms(schedule.getUpdatedAt()));
+                schedule.getCreatedAt(),
+                schedule.getUpdatedAt());
     }
 
 }
