@@ -34,7 +34,7 @@
 </table>
 
 
-## 📋 [API 명세서]()
+## 📋 API 명세서
 
 ### 1️⃣ 일정 관리 Develop API - 일정
 <div style="overflow-x: auto;">
@@ -42,7 +42,7 @@
 | 기능 | Method | URI | Request | Response | Status |
 | --- | --- | --- | --- | --- | --- |
 | 일정 작성 | POST | /api/v1/schedules | {<br>"title": string,<br>"contents": string<br>} | {<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string,<br>"replyCount": number,<br>"createdAt": string,<br>"updatedAt": string<br>} | 200, 400, 404 |
-| 일정 페이지 조회 | GET | /api/v1/schedules?page={{number}}&size={{number}} |  | {<br> "content": [ <br>{ <br>"id": number,<br> "username": string,<br> "title": string,<br> "contents": string,<br> "replyCount": number,<br> "createdAt": string,<br> "updatedAt": string <br>}], <br>"pageable": { <br>"pageNumber": 3,<br> "pageSize": 5,<br> // ...<br> } | 200 |
+| 일정 페이지 조회 | GET | /api/v1/schedules?page={{number}}&size={{number}} | {<br>"memberId": number,<br>"username": string,<br>"title": string,<br>"contents": string,<br>"updatedAt": string<br>} | {<br> "content": [ <br>{ <br>"id": number,<br> "username": string,<br> "title": string,<br> "contents": string,<br> "replyCount": number,<br> "createdAt": string,<br> "updatedAt": string <br>}], <br>"pageable": { <br>"pageNumber": 3,<br> "pageSize": 5,<br> // ...<br> } | 200 |
 | 일정 단건 조회 | GET | /api/v1/schedules/{{id}} |  | {<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string,<br>"replyCount": number,<br>"createdAt": string,<br>"updatedAt": string<br>} | 200, 404 |
 | 일정 수정 | PATCH | /api/v1/schedules/{{id}} | {<br>"title": string,<br>"contents": string<br>} | {<br>"id": number,<br>"username": string,<br>"title": string,<br>"contents": string,<br>"replyCount": number,<br>"createdAt": string,<br>"updatedAt": string<br>} | 200, 400, 404 |
 | 일정 삭제 | POST | /api/v1/schedules/{{id}} |  |  | 200, 404 |
@@ -102,3 +102,4 @@
 [[Spring]_JPA_Entity](https://velog.io/@daylikezero/Spring-JPA-Entity)<br>
 [[Spring]_JPA_Soft_Delete](https://velog.io/@daylikezero/Spring-JPA-Soft-Delete)<br>
 [[Spring]_일정관리_앱_Develop_트러블슈팅](https://velog.io/@daylikezero/Spring-%EC%9D%BC%EC%A0%95%EA%B4%80%EB%A6%AC-%EC%95%B1-Develop-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85)<br>
+[[Spring]_filter_예외처리](https://velog.io/@daylikezero/Spring-filter-%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC)
