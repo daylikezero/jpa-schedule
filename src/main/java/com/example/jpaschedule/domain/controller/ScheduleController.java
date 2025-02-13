@@ -1,6 +1,7 @@
 package com.example.jpaschedule.domain.controller;
 
 import com.example.jpaschedule.domain.dto.request.ScheduleRequestDto;
+import com.example.jpaschedule.domain.dto.response.SchedulePageResponseDto;
 import com.example.jpaschedule.domain.dto.response.ScheduleResponseDto;
 import com.example.jpaschedule.domain.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ScheduleResponseDto>> findAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size, @RequestBody ScheduleRequestDto dto) {
+    public ResponseEntity<Page<SchedulePageResponseDto>> findAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size, @RequestBody ScheduleRequestDto dto) {
         return ResponseEntity.ok(scheduleService.findAll(page, size, dto));
     }
 
